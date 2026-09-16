@@ -1,6 +1,6 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED
+from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED, PLAYER_SPEED
 
 class Player(CircleShape):
     def __init__(self, x: float, y: float):
@@ -22,10 +22,20 @@ class Player(CircleShape):
     def rotate(self, dt: float) -> None:
         self.rotation += PLAYER_TURN_SPEED * dt
 
+    def move(self, dt: float) -> None:
+        unit_vector = pygame.Vector2(0, 1)
+        rotation_vector = unit_vector.rotate(self.rotation) # Get vector direction
+        movement_vector = rotation_vector * PLAYER_SPEED * dt # Get vector velocity
+        self.position += movement_vector
+
     def update(self, dt: float) -> None:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
-            self.rotate(dt * -1) # Invert delta time to rotate ccw
+            self.rotate(-dt) # Invert delta time to rotate ccw
         if keys[pygame.K_d]:
             self.rotate(dt) # Use delta time to rotate cw
+        if keys[pygame.K_w]:
+            self.move(dt) # Use delta time to move forward
+        if keys[pygame.K_s]:
+            self.move(-dt) # Invert delta time to move backwards

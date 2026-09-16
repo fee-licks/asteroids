@@ -7,6 +7,9 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     dt = 0.0 #Setting up delta time
     while True:
@@ -16,12 +19,13 @@ def main():
                 return
         dt = clock.tick(60) / 1000
         screen.fill("black")
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
+        for d in drawable:
+            d.draw(screen)
         pygame.display.flip() # Keep this at the end of the logic loop
-    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
+#    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
+#    print(f"Screen width: {SCREEN_WIDTH}")
+#    print(f"Screen height: {SCREEN_HEIGHT}")
 
 
 if __name__ == "__main__":

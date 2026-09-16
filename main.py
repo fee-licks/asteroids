@@ -14,9 +14,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        screen.fill("black")
-        player.draw(screen)
         dt = clock.tick(60) / 1000
+        screen.fill("black")
+        player.update(dt)
+        player.draw(screen)
         pygame.display.flip() # Keep this at the end of the logic loop
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
